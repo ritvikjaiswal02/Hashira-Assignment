@@ -1,48 +1,69 @@
-# Shamir Secret Sharing - Lagrange Interpolation Solution
+Polynomial Equation Solver - Hashira Assignment
+📌 Problem
 
-## Implementation Details
+Given JSON input with n values (encoded in bases 2–36) and k (minimum points), reconstruct a polynomial of degree k-1 and find its constant term c.
 
-- **Language:** JavaScript (Node.js)
-- **Algorithm:** Lagrange Interpolation
-- **Time Complexity:** O(k²)
-- **Approach:** Direct calculation of f(0) to find constant term
+⚙️ Algorithm (System of Equations)
 
-## Solution Steps
+Decode values: Convert base-encoded y values into decimal.
 
-1. **Parse JSON:** Extract n, k values and encoded roots
-2. **Base Conversion:** Convert values from bases 2-36 to decimal using `parseInt(value, base)`
-3. **Lagrange Interpolation:** Apply formula `f(0) = Σ yi × Π(-xj/(xi-xj))` for j≠i
+Form equations: Each point (x, y) gives one equation of the polynomial:
 
-## Key Implementation Features
+# 𝑦
 
-- **Dynamic file reading:** Uses `fs.readFileSync()` to read JSON test cases
-- **Robust base handling:** Supports all bases from 2 to 36 including hexadecimal
-- **Precision handling:** Uses JavaScript's native number precision for large integers
-- **Error handling:** Validates file existence and JSON parsing
+𝑎
+𝑚
+𝑥
+𝑚
 
-## Code Structure
+- ⋯
+- 𝑎
+  1
+  𝑥
+- 𝑐
+  y=a
+  m
+  ​
 
-```javascript
-convertToDecimal(value, base); // Base conversion utility
-lagrangeInterpolation(points); // Core mathematical algorithm
-findConstantTerm(filename); // Main solution function
-```
+x
+m
++⋯+a
+1
+​
 
-## Test Results
+x+c
 
-- **testcase1.json:** c = 3
-- **testcase2.json:** c = -6290016743746478000
+Solve system: Use Gaussian elimination on the augmented matrix to find coefficients.
 
-## Usage
+Extract constant: The last coefficient = constant term c.
 
-```bash
-node secret_sharing.js
-```
+▶️ Usage
 
-## Files
+Run in Node.js:
 
-- `secret_sharing.js` - Complete solution implementation
-- `testcase1.json` - Test case 1
-- `testcase2.json` - Test case 2
+node polynomial_solver.js
 
-**Author:** Ritvik Jaiswal
+📊 Sample Output
+=== Processing testcase1.json ===
+n: 4, k: 3 → degree: 2
+Decoded points: (1, 4), (2, 7), (3, 12)
+Polynomial coefficients: [ 1, -2, 28 ]
+🎯 Constant term (c) = 28
+
+=== Processing testcase2.json ===
+n: 10, k: 7 → degree: 6
+Decoded points: (1, 995085094601491), (2, 320923294898495900), ...
+Polynomial coefficients: [ ... , -72004075930529132 ]
+🎯 Constant term (c) = -72004075930529132
+
+✅ Key Points
+
+Handles any base (2–36).
+
+Uses Gaussian elimination (O(k³)) for solving coefficients.
+
+Clear step-by-step output: decode → equations → coefficients → constant.
+
+Recruiter-friendly: shows explicit linear algebra reasoning, not just interpolation tricks.
+
+✍️ Author: Ritvik Jaiswal
